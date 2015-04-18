@@ -18,7 +18,7 @@ public class DrawSnakeGamePanel extends JPanel {
 	private Kibble kibble;
 	private Score score;
 
-	private SnakeTile tile;
+
 
 	private boolean  hitTile;
 
@@ -35,9 +35,7 @@ public class DrawSnakeGamePanel extends JPanel {
 	}
 
 
-	public void setTile(SnakeTile t) {
-		this.tile = t;
-	}
+
 	
 	public Dimension getPreferredSize() {
         return new Dimension(SnakeGame.xPixelMaxDimension, SnakeGame.yPixelMaxDimension);
