@@ -1,5 +1,7 @@
-package com.clara;
-
+package com.Yann;
+/* Snake Program created by Yannick
+ * On April/17/201
+ */
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

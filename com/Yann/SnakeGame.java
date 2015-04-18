@@ -1,9 +1,13 @@
-package com.clara;
 
-import java.util.Timer;
+package  com.Yann;
+
+/* Snake Program created by Yannick
+ * On April/17/201
+ */
 
 import javax.swing.*;
-
+import java.awt.*;
+import java.util.Timer;
 
 public class SnakeGame {
 
@@ -15,11 +19,11 @@ public class SnakeGame {
 
 	public final static int squareSize = 50;
 
-	protected static Snake snake ;
+	private static Snake snake ;
 
-	protected static Kibble kibble;
+	private static Kibble kibble;
 
-	protected static Score score;
+	private static Score score;
 
 	static final int BEFORE_GAME = 1;
 	static final int DURING_GAME = 2;
@@ -32,7 +36,7 @@ public class SnakeGame {
 	private static int gameStage = BEFORE_GAME;  //use this to figure out what should be happening. 
 	//Other classes like Snake and DrawSnakeGamePanel will need to query this, and change it's value
 
-	protected static long clockInterval = 500; //controls game speed
+	private static long clockInterval = 500; //controls game speed
 	//Every time the clock ticks, the snake moves
 	//This is the time between clock ticks, in milliseconds
 	//1000 milliseconds = 1  second.
@@ -52,10 +56,13 @@ public class SnakeGame {
 		snakeFrame.setUndecorated(true); //hide title bar
 		snakeFrame.setVisible(true);
 		snakeFrame.setResizable(false);
+		snakeFrame.createBufferStrategy(2);
+
 
 		snakePanel = new DrawSnakeGamePanel(snake, kibble, score);
 		snakePanel.setFocusable(true);
 		snakePanel.requestFocusInWindow(); //required to give this component the focus so it can generate KeyEvents
+
 
 		snakeFrame.add(snakePanel);
 		snakePanel.addKeyListener(new GameControls(snake));
@@ -83,16 +90,19 @@ public class SnakeGame {
 		timer.scheduleAtFixedRate(clockTick, 0 , clockInterval);
 	}
 
-	public static void main(String[] args) {
+	public static void main (String[] args) {
 		//Schedule a job for the event-dispatching thread:
 		//creating and showing this application's GUI.
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				initializeGame();
-				createAndShowGUI();
-			}
-		});
-	}
+
+ 			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					initializeGame();
+					createAndShowGUI();
+				}
+			});
+		}
+
+
 
 
 
@@ -108,6 +118,6 @@ public class SnakeGame {
 	}
 
 	public static void setGameStage(int gameStage) {
-		SnakeGame.gameStage = gameStage;
+		com.Yann.SnakeGame.gameStage = gameStage;
 	}
 }

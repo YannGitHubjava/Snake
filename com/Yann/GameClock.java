@@ -1,8 +1,12 @@
-package com.clara;
+package com.Yann;
 
+/* Snake Program created by Yannick
+ * On April/17/201
+ */
 import java.util.TimerTask;
 
-public class GameClock extends TimerTask {
+
+public class  GameClock extends TimerTask {
 
 	Snake snake;
 	Kibble kibble;

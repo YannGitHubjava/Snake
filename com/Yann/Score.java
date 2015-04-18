@@ -1,6 +1,8 @@
-package com.clara;
+package com.Yann;
 
-/** Keeps track of, and display the user's score
+/* Snake Program created by Yannick
+ * On April/17/201
+ *Keeps track of, and display the user's score
  * 
  */
 

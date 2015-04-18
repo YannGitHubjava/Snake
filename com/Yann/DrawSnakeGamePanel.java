@@ -1,9 +1,9 @@
-package com.clara;
+package com.Yann;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
-
-import javax.swing.JPanel;
+import java.util.Random;
 
 /** This class responsible for displaying the graphics, so the snake, grid, kibble, instruction text and high score
  * 
@@ -17,11 +17,26 @@ public class DrawSnakeGamePanel extends JPanel {
 	private Snake snake;
 	private Kibble kibble;
 	private Score score;
-	
+
+	private SnakeTile tile;
+
+	private boolean  hitTile;
+
+
+
+
+
+
 	DrawSnakeGamePanel(Snake s, Kibble k, Score sc){
 		this.snake = s;
 		this.kibble = k;
 		this.score = sc;
+
+	}
+
+
+	public void setTile(SnakeTile t) {
+		this.tile = t;
 	}
 	
 	public Dimension getPreferredSize() {
@@ -29,7 +44,7 @@ public class DrawSnakeGamePanel extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);       
+		super.paintComponent(g);
 
         /* Where are we at in the game? 4 phases.. 
          * 1. Before game starts
@@ -91,7 +106,8 @@ public class DrawSnakeGamePanel extends JPanel {
 	private void displayGame(Graphics g) {
 		displayGameGrid(g);
 		displaySnake(g);
-		displayKibble(g);	
+		displayKibble(g);
+		displayBlock(g);
 	}
 
 	private void displayGameGrid(Graphics g) {
@@ -99,17 +115,17 @@ public class DrawSnakeGamePanel extends JPanel {
 		int maxX = SnakeGame.xPixelMaxDimension;
 		int maxY= SnakeGame.yPixelMaxDimension;
 		int squareSize = SnakeGame.squareSize;
-		
+
 		g.clearRect(0, 0, maxX, maxY);
 
 		g.setColor(Color.RED);
 
 		//Draw grid - horizontal lines
-		for (int y=0; y <= maxY ; y+= squareSize){			
+		for (int y=0; y <= maxY ; y+= squareSize){
 			g.drawLine(0, y, maxX, y);
 		}
 		//Draw grid - vertical lines
-		for (int x=0; x <= maxX ; x+= squareSize){			
+		for (int x=0; x <= maxX ; x+= squareSize){
 			g.drawLine(x, 0, x, maxY);
 		}
 	}
@@ -123,7 +139,7 @@ public class DrawSnakeGamePanel extends JPanel {
 		int y = kibble.getKibbleY() * SnakeGame.squareSize;
 
 		g.fillRect(x+1, y+1, SnakeGame.squareSize-2, SnakeGame.squareSize-2);
-		
+
 	}
 
 	private void displaySnake(Graphics g) {
@@ -133,8 +149,9 @@ public class DrawSnakeGamePanel extends JPanel {
 		//Draw head in grey
 		g.setColor(Color.LIGHT_GRAY);
 		Point head = coordinates.pop();
+		System.out.println("TheSnake is moving");
 		g.fillRect((int)head.getX(), (int)head.getY(), SnakeGame.squareSize, SnakeGame.squareSize);
-		
+
 		//Draw rest of snake in black
 		g.setColor(Color.BLACK);
 		for (Point p : coordinates) {
@@ -142,6 +159,48 @@ public class DrawSnakeGamePanel extends JPanel {
 		}
 
 	}
+
+
+	//New Method that draw Tiles in side the game panel.
+
+	private void displayBlock (Graphics g) {
+
+
+		g.setColor(Color.BLACK);    // color black for the tile block
+
+		// Filling each coordinate with tiles.
+		for (int i = 1; i <= 2; i++) {
+			for (int j = 1; j <= 1; j++) {
+
+				int x = i * SnakeGame.squareSize;   // tile start at coordinate 1
+				int y = i + j * SnakeGame.squareSize;
+
+				g.fillRect(x + 1, y + 1, SnakeGame.squareSize - 2, SnakeGame.squareSize - 2);
+				System.out.println("Wall displayed");
+
+			}
+		}
+
+
+
+		// Can create tiles all over the place but using this
+		for (int i = 1; i <= 2; i++) {
+			for (int j = 1; j <= 3; j++) {
+
+				int x = i + 6 * SnakeGame.squareSize; 	// tiles start at coordinate 6
+				int y = j   * SnakeGame.squareSize;
+
+				g.fillRect(x + 1, y + 1, SnakeGame.squareSize - 2, SnakeGame.squareSize - 2);
+
+
+				}
+
+			}
+		}
+
+
+
+
 
 	private void displayInstructions(Graphics g) {
         g.drawString("Press any key to begin!",100,200);		

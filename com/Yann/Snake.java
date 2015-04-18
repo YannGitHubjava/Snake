@@ -1,7 +1,10 @@
-package com.clara;
-
+package com.Yann;
+/* Snake Program created by Yannick
+ * On April/17/201
+ */
 import java.awt.Point;
 import java.util.LinkedList;
+
 
 public class Snake {
 
@@ -12,6 +15,7 @@ public class Snake {
 
 	private boolean hitWall = false;
 	private boolean ateTail = false;
+	private boolean hitTile = false;
 
 	private int snakeSquares[][];  //represents all of the squares on the screen
 	//NOT pixels!
@@ -24,14 +28,15 @@ public class Snake {
 	
 	private int snakeSize;   //size of snake - how many segments?
 
-	private int growthIncrement = 2; //how many squares the snake grows after it eats a kibble
+	private static int growthIncrement = 2; //how many squares the snake grows after it eats a kibble
 
 	private int justAteMustGrowThisMuch = 0;
 
-	private int maxX, maxY, squareSize;  
+	private int maxX, maxY, squareSize;
 	private int snakeHeadX, snakeHeadY; //store coordinates of head - first segment
 
-	public Snake(int maxX, int maxY, int squareSize){
+
+	public Snake(int maxX, int maxY, int squareSize) {
 		this.maxX = maxX;
 		this.maxY = maxY;
 		this.squareSize = squareSize;
@@ -43,8 +48,8 @@ public class Snake {
 
 	protected void createStartSnake(){
 		//snake starts as 3 horizontal squares in the center of the screen, moving left
-		int screenXCenter = (int) maxX/2;  //Cast just in case we have an odd number
-		int screenYCenter = (int) maxY/2;  //Cast just in case we have an odd number
+		int screenXCenter =  maxX/2;  //Cast just in case we have an odd number
+		int screenYCenter =  maxY/2;  //Cast just in case we have an odd number
 
 		snakeSquares[screenXCenter][screenYCenter] = 1;
 		snakeSquares[screenXCenter+1][screenYCenter] = 2;
@@ -65,9 +70,24 @@ public class Snake {
 		for (int x = 0; x < this.maxX; x++){
 			for (int y = 0 ; y < this.maxY ; y++) {
 				snakeSquares[x][y] = 0;
+
+
 			}
 		}
+
 	}
+
+	protected int getSnakeHeadX () {
+		return snakeHeadX;
+
+	}
+
+	protected int getSnakeHeadY () {
+		return snakeHeadY;
+	}
+
+
+
 
 	public LinkedList<Point> segmentsToDraw(){
 		//Return a list of the actual x and y coordinates of the top left of each snake segment
@@ -106,10 +126,10 @@ public class Snake {
 		currentHeading = DIRECTION_RIGHT;
 	}
 
-//	public void	eatKibble(){
-//		//record how much snake needs to grow after eating food
-//		justAteMustGrowThisMuch += growthIncrement;
-//	}
+	public void	eatKibble(){
+		//record how much snake needs to grow after eating food
+		justAteMustGrowThisMuch += growthIncrement;
+	}
 
 	protected void moveSnake(){
 		//Called every clock tick
@@ -133,10 +153,11 @@ public class Snake {
 		//Did you hit the wall, snake? 
 		//Or eat your tail? Don't move. 
 
-		if (hitWall == true || ateTail == true) {
+		if (ateTail == true) {
 			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
 			return;
 		}
+
 
 		//Use snakeSquares array, and current heading, to move snake
 
@@ -149,6 +170,21 @@ public class Snake {
 
 		//Increase all snake segments by 1
 		//All non-zero elements of array represent a snake segment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		for (int x = 0 ; x < maxX ; x++) {
 			for (int y = 0 ; y < maxY ; y++){
@@ -177,23 +213,70 @@ public class Snake {
 		}
 
 		//Does this make snake hit the wall?
-		if (snakeHeadX >= maxX || snakeHeadX < 0 || snakeHeadY >= maxY || snakeHeadY < 0 ) {
-			hitWall = true;	
-			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
-			return;
+		// this make the snake wrap for left to right and right to left but
+		if (snakeHeadX  < 0 ) {
+
+			snakeHeadX =  9;
+			snakeSquares[snakeHeadX][snakeHeadY] = 0;
+			System.out.println("x:" + snakeHeadX);
+			System.out.println("Sx:" + SnakeGame.xSquares);
+
+
 		}
+		else if (snakeHeadY > 9) {
+
+
+			snakeHeadY = 0;
+
+			snakeSquares[snakeHeadX][snakeHeadY] = 0;
+			System.out.println("max" + maxX + ";" + " max y" + maxY);
+		}
+
+		if (snakeHeadX > 9) {
+			snakeHeadX = 0;
+			snakeSquares[snakeHeadX][snakeHeadY] = 0;
+			System.out.println("max" + maxX + ";" + " max y" + maxY);
+		}
+
+		 else if (snakeHeadY < 0) {
+			snakeHeadY = 9;
+			snakeSquares[snakeHeadX][snakeHeadY] = 0;
+
+		}
+
+
+
+
+
+
 
 		//Does this make the snake eat its tail?
 
 		if (snakeSquares[snakeHeadX][snakeHeadY] != 0) {
 
-			ateTail = true;
-			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
+
 			return;
 		}
 
 		//Otherwise, game is still on. Add new head
-		snakeSquares[snakeHeadX][snakeHeadY] = 1; 
+		snakeSquares[snakeHeadX][snakeHeadY] = 1;
+
+
+
+		// this should make the snake hit the tiles and stop the game
+
+//		if (snakeSquares[snakeHeadX][snakeHeadY] == ) {
+//
+//			hitTile = true;
+//			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
+//			return;
+//		}
+//
+//		else {
+//			snakeSquares[snakeHeadX][snakeHeadY] = 1;
+//
+//		}
+
 
 		//If snake did not just eat, then remove tail segment
 		//to keep snake the same length.
@@ -226,6 +309,8 @@ public class Snake {
 	protected boolean didEatTail(){
 		return ateTail;
 	}
+
+
 
 	public boolean isSnakeSegment(int kibbleX, int kibbleY) {
 		if (snakeSquares[kibbleX][kibbleY] == 0) {
@@ -281,8 +366,12 @@ public class Snake {
 
 	}
 
+
+
+
+
 	public boolean isGameOver() {
-		if (hitWall == true || ateTail == true){
+		if (ateTail == true){
 			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
 			return true;
 			
